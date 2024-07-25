@@ -1,0 +1,33 @@
+/* Sidebar.css */
+.slidebar {
+    position: fixed; /* Fixed position to float over the content */
+    top: 0;
+    left: -250px; /* Initially hide the sidebar off-screen */
+    width: 25px;
+    height: 10%;
+    background-color: rgba(51, 51, 51, 0.9); /* Semi-transparent background */
+    color: white;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Add a shadow for depth */
+    transition: left 0.5s ease; /* Smooth slide-in transition */
+    z-index: 1000; /* Ensure it's on top of other content */
+}
+
+/* Optional: Add some styling for the close button */
+.slidebar button {
+    background-color: #ff5f5f;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.slidebar button:hover {
+    background-color: #ff1f1f;
+}
+
+
+.slidebar.open {
+    right: 0; 
+}

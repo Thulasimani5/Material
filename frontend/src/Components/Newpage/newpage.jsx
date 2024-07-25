@@ -6,6 +6,7 @@ import axios from 'axios';
 const NewPage = () => {
   const location = useLocation();
   const [level, setLevel] = useState([]);
+  const [content,setcontent]= useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -13,6 +14,21 @@ const NewPage = () => {
       try {
         const response = await axios.get('http://localhost:5000/addlevel');
         setLevel(response.data);
+        console.log(response.data);
+      } catch (err) {
+        console.error('Error fetching tags:', err);
+      }
+    };
+
+    fetchTags();
+  }, []);
+
+  
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/addcontent');
+        setcontent(response.data);
         console.log(response.data);
       } catch (err) {
         console.error('Error fetching tags:', err);
@@ -30,7 +46,7 @@ const NewPage = () => {
           <p>Tag: {location.state.message.tag}</p>
           <p>Objective: {location.state.message.objective}</p>
           <p>Count: {location.state.message.count}</p>
-          <p>Image: {location.state.message.image}</p>
+          <img src={`http://localhost:5000/${location.state.message.image}`} alt="" /> 
           <br />
         </div>
       )}
@@ -39,7 +55,9 @@ const NewPage = () => {
         <Level close={() => setIsModalOpen(false)} />
       )}
       {level.map((lvl, index) => (
-        <p key={index}>{lvl.content}</p>
+        location.state?.message.id === lvl.main_id && (
+          <p key={index}>{lvl.content}</p>
+        )
       ))}
     </div>
   );

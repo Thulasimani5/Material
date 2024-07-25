@@ -1,19 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './level.css';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
 const Level = ({ close }) => {
   const [content, setContent] = useState("");
   const [level, setLevel] = useState("");
+  const [main_id, setMainId] = useState("");
   const [isModal1Open, setIsModal1Open] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.message?.id) {
+      setMainId(location.state.message.id);
+    }
+  }, [location.state?.message?.id]);
 
   const handleAddButtonClick = async () => {
     const form1Data = new FormData();
     form1Data.append('content', content);
     form1Data.append('level', level);
+    form1Data.append('main_id', location.state.message.id);
 
     try {
-      const res = await axios.post('http://localhost:5000/addlevel', { content, level });
+      const res = await axios.post('http://localhost:5000/addlevel', { main_id, content, level });
       console.log(res.data);
       close();
     } catch (err) {
@@ -22,6 +32,7 @@ const Level = ({ close }) => {
   };
 
   const handleClick = () => {
+    console.log(location.state.message.id);
     handleAddButtonClick();
     setIsModal1Open(true);
   };
